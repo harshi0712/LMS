@@ -19,7 +19,7 @@ export const createAssessment = async (req: Request, res: Response) => {
         res.status(201).json(assessment);
     } catch (error) {
         console.error('Error creating assessment:', error);
-        res.status(500).json({ message: 'Error creating assessment' });
+        res.status(500).send({ message: 'Error creating assessment' });
     }
 };
 
@@ -109,3 +109,4 @@ export const deleteAssessment = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error deleting assessment' });
     }
 };
+  

@@ -6,7 +6,7 @@ dotenv.config();
 
 const sequelize = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, process.env.DB_PASSWORD!, {
   host: process.env.DB_HOST,
-  dialect: 'mysql', // Change to 'sqlite', 'postgres', or 'mssql' depending on your DB
+  dialect: 'mysql', 
   logging: false // Disable logging if you don't want to see SQL queries in the console
 });
 sequelize.authenticate().

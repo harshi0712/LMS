@@ -22,12 +22,12 @@ class Enrollment extends Model<EnrollmentAttributes, EnrollmentCreationAttribute
 // Initialize the Enrollment model
 Enrollment.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   userId: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: User,
@@ -35,7 +35,7 @@ Enrollment.init({
     }
   },
   courseId: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: Course,

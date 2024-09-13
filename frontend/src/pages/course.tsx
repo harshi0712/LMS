@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useState, useEffect } from 'react';
-import { Course } from '../types/courseTypes';
+import { Course } from '..';
 import { getCourses } from '../services/courseService';
 
 const CoursesPage: NextPage = () => {

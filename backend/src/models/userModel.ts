@@ -1,6 +1,7 @@
 
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../connection/connectDB'; // Make sure to adjust the path to your sequelize instance
+import sequelize from '../connection/connectDB';
+
 
 // Define the attributes of the User model
 interface UserAttributes {
@@ -11,7 +12,7 @@ interface UserAttributes {
 }
 
 // Define the creation attributes
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> { }
 
 // Define the User model
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
@@ -24,7 +25,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
 // Initialize the User model
 User.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
@@ -35,7 +36,8 @@ User.init({
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    
   },
   role: {
     type: DataTypes.ENUM('admin', 'instructor', 'student'),

@@ -28,12 +28,12 @@ class Submission extends Model<SubmissionAttributes, SubmissionCreationAttribute
 // Initialize the Submission model
 Submission.init({
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
   studentId: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: User,
@@ -41,7 +41,7 @@ Submission.init({
     }
   },
   assessmentId: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: Assessment,

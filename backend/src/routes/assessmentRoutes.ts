@@ -13,7 +13,7 @@ import {
 const router = Router();
 
 // Define routes
-router.post('/assessments', createAssessment); // Create a new assessment
+router.post('/assessments',()=>{} ,createAssessment); // Create a new assessment
 router.get('/assessments', getAssessments); // Get all assessments
 router.get('/assessments/:id', getAssessmentById); // Get a single assessment by ID
 router.put('/assessments/:id', updateAssessment); // Update an assessment by ID
