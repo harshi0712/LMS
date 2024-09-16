@@ -7,15 +7,19 @@ interface CourseAttributes {
   title: string;
   description: string;
   modules: any; // Assuming JSON type for modules
+  courseImage: string;
+  link: string
 }
 
-interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'> {}
+interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'> { }
 
 class Course extends Model<CourseAttributes, CourseCreationAttributes> implements CourseAttributes {
   public id!: number;
   public title!: string;
   public description!: string;
   public modules!: any;
+  public courseImage!: string;
+  public link!: string;
 
   getModules(): any {
     return this.getDataValue('modules') || [];
@@ -38,12 +42,28 @@ Course.init({
   },
   modules: {
     type: DataTypes.JSON,
-    allowNull:true
+    allowNull: true
+  },
+  courseImage: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  link: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   sequelize,
   tableName: 'courses',
   timestamps: false
 });
+
+// Course.sync({ alter: true })
+//   .then(result => {
+//     console.log(result);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   })
 
 export default Course;

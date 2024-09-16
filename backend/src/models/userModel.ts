@@ -1,27 +1,27 @@
-
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../connection/connectDB';
-
-
+ 
 // Define the attributes of the User model
 interface UserAttributes {
   id: number;
   username: string;
+  email: string; // Add email attribute
   password: string;
   role: 'admin' | 'instructor' | 'student';
 }
-
+ 
 // Define the creation attributes
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> { }
-
+ 
 // Define the User model
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number;
   public username!: string;
+  public email!: string; // Add email attribute
   public password!: string;
   public role!: 'admin' | 'instructor' | 'student';
 }
-
+ 
 // Initialize the User model
 User.init({
   id: {
@@ -34,10 +34,14 @@ User.init({
     allowNull: false,
     unique: true
   },
-  password: {
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
-    
+    unique: true // Ensure that email is unique
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
   },
   role: {
     type: DataTypes.ENUM('admin', 'instructor', 'student'),
@@ -48,5 +52,5 @@ User.init({
   tableName: 'users', // The table name in the database
   timestamps: false // Disable timestamps if you don't need them
 });
-
+ 
 export default User;

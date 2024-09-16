@@ -10,7 +10,7 @@ lms-project/
 │   │   │   ├── courseController.ts       # Course management controller
 │   │   │   ├── enrollmentController.ts   # Enrollment management controller
 │   │   │   └── assessmentController.ts   # Assessment and grading controller
-│   │   ├── models/                 # Mongoose models for MongoDB
+│   │   ├── models/                 # for sequalize
 │   │   │   ├── User.ts                   # User model with roles
 │   │   │   ├── Course.ts                 # Course model
 │   │   │   ├── Enrollment.ts             # Enrollment model (links users to courses)
