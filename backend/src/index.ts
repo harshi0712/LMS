@@ -5,21 +5,39 @@ import sequelize from './connection/connectDB';
 import './models/userModel';
 import UserRouter from './routes/userRoutes'
 import courseRoutes from './routes/courseRoutes'
+import adminRoutes from './routes/adminRoutes';
+import instructorRoutes from './routes/instructorRoutes';
+import studentRoutes from './routes/studentRoutes';
+import Assessment  from './routes/assessmentRoutes';
+import authRoutes from   './routes/authRoutes';
+import enrollment    from './routes/enrollmentRoutes';
+
 const app: Express = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-sequelize.sync().then(() => {
+sequelize.sync()
+.then(() => {
    console.log('Database synced');
    
 }).catch((error) => {
    console.error('Error syncing database:', error);
 });
 
-app.use('/user',UserRouter)
-app.use('/course',courseRoutes)
+app.use('/user',UserRouter);
+app.use('/course',courseRoutes);
+app.use(  '/admin', adminRoutes);
+app.use('/instructor', instructorRoutes);
+app.use('/student', studentRoutes);
+app.use('/assessment', Assessment);
+app.use('/authRoute', authRoutes);
+app.use('/enrollment',enrollment);
+
+
+
+
 
 app.listen(3001, () => {
    console.log('server is running on port 3001');

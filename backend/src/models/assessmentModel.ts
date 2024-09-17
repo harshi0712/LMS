@@ -1,8 +1,7 @@
-
-
+// src/models/assessmentModel.ts
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../connection/connectDB';
-import Course from '../models/courseModel';
+import Course from './courseModel';
 
 // Define the attributes for the Assessment model
 interface Question {
@@ -14,20 +13,19 @@ interface Question {
 interface AssessmentAttributes {
   id: number;
   title: string;
-  courseId: number;
-  questions: Question[]; // JSON type or text, depending on DB support
+  courseId: number; // Ensure this matches with `id` in `Course`
+  questions: Question[]; // JSON type for storing questions
 }
 
-interface AssessmentCreationAttributes extends Optional<AssessmentAttributes, 'id'> {}
+interface AssessmentCreationAttributes extends Optional<AssessmentAttributes, 'id'> { }
 
 // Define the Assessment model
 class Assessment extends Model<AssessmentAttributes, AssessmentCreationAttributes> implements AssessmentAttributes {
   public id!: number;
   public title!: string;
   public courseId!: number;
-  public questions!: Question[]; // Assuming JSON type for Sequelize
+  public questions!: Question[];
 
-  // Define JSON attribute for questions
   getQuestions(): Question[] {
     return this.getDataValue('questions') || [];
   }
@@ -44,15 +42,15 @@ Assessment.init({
     allowNull: false
   },
   courseId: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER, // Ensure this matches with `id` in `Course`
     allowNull: false,
     references: {
-      model: Course,
+      model: 'courses', // Referencing the table name directly
       key: 'id'
     }
   },
   questions: {
-    type: DataTypes.JSON, // JSON type for storing nested questions
+    type: DataTypes.JSON,
     allowNull: false
   }
 }, {

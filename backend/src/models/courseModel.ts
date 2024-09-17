@@ -1,4 +1,4 @@
-//courseModels 
+// src/models/courseModel.ts
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../connection/connectDB';
 
@@ -6,9 +6,9 @@ interface CourseAttributes {
   id: number;
   title: string;
   description: string;
-  modules: any; // Assuming JSON type for modules
+  modules: any; // JSON type for storing nested modules
   courseImage: string;
-  link: string
+  link: string;
 }
 
 interface CourseCreationAttributes extends Optional<CourseAttributes, 'id'> { }
@@ -17,7 +17,7 @@ class Course extends Model<CourseAttributes, CourseCreationAttributes> implement
   public id!: number;
   public title!: string;
   public description!: string;
-  public modules!: any;
+  public modules!: any; // Consider using a specific type if possible
   public courseImage!: string;
   public link!: string;
 
@@ -57,13 +57,5 @@ Course.init({
   tableName: 'courses',
   timestamps: false
 });
-
-// Course.sync({ alter: true })
-//   .then(result => {
-//     console.log(result);
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   })
 
 export default Course;

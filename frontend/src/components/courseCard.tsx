@@ -1,4 +1,4 @@
-// components/CardGrid.tsx
+// COURSE CARD.............................
 
 import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
