@@ -15,7 +15,8 @@ export const createCourse = async (req: Request, res: Response) => {
             courseImage,
             link
         });
-        res.status(201).json(course);
+        console.log(course)
+        res.status(201).json({course});
     } catch (error) {
         console.error('Error creating course:', error);
         res.status(500).json({ message: 'Error creating course' });

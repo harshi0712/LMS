@@ -1,28 +1,40 @@
-
-
 import { useState } from 'react';
 import { Container, Typography, TextField, Button, Box } from '@mui/material';
 import Link from 'next/link';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const LoginComponent = () => {
-  // State variables to manage form inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async () => {
     try {
-      // Send the POST request with user input data
+      console.log(process.env.NEXT_PUBLIC_LOGIN);
+      
       const response = await axios.post(`${process.env.NEXT_PUBLIC_LOGIN}`, {
         email,
-        password
+        password,
       });
 
       console.log(response.data);
-      alert("Login successful...");
+      const { token, role } = response.data;
+
+      // Store token in localStorage or context
+      localStorage.setItem('token', token);
+
+      // Redirect based on user role
+      if (role === 'instructor') {
+        router.push('/InstructorDashboard');
+      } else if (role === 'student') {
+        router.push('/StudentDashboard');
+      } else {
+        alert('Unknown role, please contact support.');
+      }
     } catch (error) {
       console.error('Error during login:', error);
-      alert("Failed to log in. Please try again.");
+      alert('Failed to log in. Please try again.');
     }
   };
 
@@ -46,10 +58,9 @@ const LoginComponent = () => {
             boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
             overflow: 'hidden',
             width: '100%',
-            maxWidth: 1200, // Adjust width as needed
+            maxWidth: 1200,
           }}
         >
-          {/* Image Box */}
           <Box
             sx={{
               flex: 1,
@@ -70,7 +81,6 @@ const LoginComponent = () => {
             />
           </Box>
 
-          {/* Form Box */}
           <Box
             sx={{
               flex: 1,
@@ -78,7 +88,7 @@ const LoginComponent = () => {
               flexDirection: 'column',
               alignItems: 'center',
               padding: 3,
-              marginTop: 5, 
+              marginTop: 5,
             }}
           >
             <Typography
@@ -86,7 +96,7 @@ const LoginComponent = () => {
               component="h1"
               gutterBottom
               align="center"
-              sx={{ color: 'primary.main' }} 
+              sx={{ color: 'primary.main' }}
             >
               Login
             </Typography>
@@ -128,6 +138,6 @@ const LoginComponent = () => {
       </Box>
     </Container>
   );
-}
+};
 
 export default LoginComponent;

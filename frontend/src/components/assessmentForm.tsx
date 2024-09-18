@@ -51,11 +51,11 @@ const AssessmentForm = () => {
           flexDirection: 'column',
           alignItems: 'center',
           padding: 3,
-          border: '1px solid #ccc', // Add border
-          borderRadius: 2, // Rounded corners
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Add shadow
-          backgroundColor: '#fff', // Optional: to make the form stand out
-          marginTop: 3 // Adding top margin
+          border: '1px solid #ccc', 
+          borderRadius: 2, 
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', 
+          backgroundColor: '#fff', 
+          marginTop: 3
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom align="center">

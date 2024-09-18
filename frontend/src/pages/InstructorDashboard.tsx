@@ -8,7 +8,6 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import type { Navigation, Router } from '@toolpad/core';
 import InstructorDashboard from '../components/Instructor/Dashboard';
-import AdminDashboard from '../components/Admin/Dashboard';
 import StudentDashboard from '../components/Student/Dashboard';
 
 // Define new navigation items
@@ -16,11 +15,6 @@ const NAVIGATION: Navigation = [
   {
     segment: 'instructor-dashboard',
     title: 'Instructor Dashboard',
-    icon: <DashboardIcon />,
-  },
-  {
-    segment: 'admin-dashboard',
-    title: 'Admin Dashboard',
     icon: <DashboardIcon />,
   },
   {
@@ -56,8 +50,6 @@ function DemoPageContent({ pathname }: { pathname: string }) {
   switch (pathname) {
     case '/instructor-dashboard':
       return <InstructorDashboard />;
-    case '/admin-dashboard':
-      return <AdminDashboard />;
     case '/student-dashboard':
       return <StudentDashboard />;
     default:
@@ -78,10 +70,6 @@ function DemoPageContent({ pathname }: { pathname: string }) {
 }
 
 interface DemoProps {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
   window?: () => Window;
 }
 
@@ -98,13 +86,11 @@ export default function DashboardLayoutBranding(props: DemoProps) {
     };
   }, [pathname]);
 
-  // Remove this const when copying and pasting into your project.
   const demoWindow = window !== undefined ? window() : undefined;
 
   return (
-    // preview-start
     <AppProvider
-      session={null} // You can set the session state as needed
+      session={null}
       authentication={{
         signIn: () => {},
         signOut: () => {},
@@ -122,6 +108,5 @@ export default function DashboardLayoutBranding(props: DemoProps) {
         <DemoPageContent pathname={pathname} />
       </DashboardLayout>
     </AppProvider>
-    // preview-end
   );
 }
