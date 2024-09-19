@@ -1,6 +1,6 @@
 // frontend/src/pages/enroll.tsx
 
-{/*import * as React from 'react';
+import * as React from 'react';
 import EnrollmentForm from '../components/enrollmentForm';
 
 const EnrollPage: React.FC = () => {
@@ -11,4 +11,4 @@ const EnrollPage: React.FC = () => {
   );
 };
 
-export default EnrollPage;*/}
+export default EnrollPage;

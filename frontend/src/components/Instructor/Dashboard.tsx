@@ -19,8 +19,7 @@ const InstructorDashboard: React.FC = () => {
     router.push(path);
   };
 
-  const textColor = '#004d40'; // Define a uniform text color
-
+  const textColor = '#004d40';
   return (
     <Container sx={{ padding: theme.spacing(3) }}>
       <Typography
@@ -28,11 +27,11 @@ const InstructorDashboard: React.FC = () => {
         align="center"
         gutterBottom
         sx={{
-          fontWeight: 'bold', // Bold text
-          color: '#00796b', // Change to your preferred color
-          textTransform: 'uppercase', // Uppercase letters
-          letterSpacing: '0.1em', // Slight letter spacing
-          marginBottom: theme.spacing(4), // Increased margin below
+          fontWeight: 'bold', 
+          color: '#00796b', 
+          textTransform: 'uppercase', 
+          letterSpacing: '0.1em',
+          marginBottom: theme.spacing(4),
         }}
       >
         Instructor Dashboard

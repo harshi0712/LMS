@@ -1,4 +1,4 @@
-{/*import * as React from 'react';
+import * as React from 'react';
 import { useState } from 'react';
 import { Container, Typography, TextField, Button, MenuItem, FormControl, InputLabel, Select } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
@@ -108,4 +108,4 @@ const EnrollmentForm: React.FC = () => {
   );
 };
 
-export default EnrollmentForm;*/}
+export default EnrollmentForm;

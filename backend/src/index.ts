@@ -11,6 +11,10 @@ import studentRoutes from './routes/studentRoutes';
 import Assessment  from './routes/assessmentRoutes';
 import authRoutes from   './routes/authRoutes';
 import enrollment    from './routes/enrollmentRoutes';
+import chatRouts from  './routes/chatRoutes';
+import progress from './routes/progressRoutes';
+import chatRoutes from './routes/chatRoutes'; // Assuming you have this route set up
+
 
 const app: Express = express();
 
@@ -34,6 +38,10 @@ app.use('/student', studentRoutes);
 app.use('/assessment', Assessment);
 app.use('/authRoute', authRoutes);
 app.use('/enrollment',enrollment);
+app.use('/chat', chatRouts);
+app.use('/progress', progress);
+app.use('/chat', chatRoutes);
+
 
 
 
