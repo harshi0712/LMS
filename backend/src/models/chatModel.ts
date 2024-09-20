@@ -10,8 +10,11 @@ interface MessageAttributes {
   recipient: string;
 }
 
+// Interface for creating a Message without requiring the 'id'
+
 interface MessageCreationAttributes extends Optional<MessageAttributes, 'id'> {}
 
+// Message model definition extending Sequelize's Model
 class Message extends Model<MessageAttributes, MessageCreationAttributes> implements MessageAttributes {
   public id!: number;
   public text!: string;
@@ -50,10 +53,11 @@ Message.init(
   }
 );
 
+// Function to add a new message to the database
 export const addMessage = async (messageData: MessageCreationAttributes) => {
   return Message.create(messageData);
 };
-
+// Function to retrieve all messages from the database
 export const getMessages = async () => {
   return Message.findAll();
 };

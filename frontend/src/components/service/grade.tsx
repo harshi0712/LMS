@@ -1,29 +1,38 @@
 
+// // Function to create a new grade
+// export const createNewGrade = async (gradeData) => {
+//     try {
+//         const response = await fetch(API.createGrade, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(gradeData),
+//         });
 
-import axios from 'axios';
+//         if (!response.ok) {
+//             const errorResponse = await response.json();
+//             throw new Error(errorResponse.error || 'Failed to create grade');
+//         }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/index.js';
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error creating grade:', error);
+//     }
+// };
 
-export const createAssessment = async (data: any) => {
-    return await axios.post(`${API_URL}/assessments`, data);
-};
+// // Function to get grades by user ID
+// export const fetchGradesByUserId = async (userId) => {
+//     try {
+//         const response = await fetch(API.getGradesByUserId(userId));
+        
+//         if (!response.ok) {
+//             const errorResponse = await response.json();
+//             throw new Error(errorResponse.error || 'Failed to fetch grades');
+//         }
 
-export const getAssessments = async () => {
-    return await axios.get(`${API_URL}/assessments`);
-};
-
-export const createProgress = async (data: any) => {
-    return await axios.post(`${API_URL}/progress`, data);
-};
-
-export const getProgressByUserId = async (userId: number) => {
-    return await axios.get(`${API_URL}/progress/${userId}`);
-};
-
-export const createGrade = async (data: any) => {
-    return await axios.post(`${API_URL}/grades`, data);
-};
-
-export const getGradesByUserId = async (userId: number) => {
-    return await axios.get(`${API_URL}/grades/${userId}`);
-};
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error fetching grades:', error);
+//     }
+// };
