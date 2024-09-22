@@ -1,7 +1,9 @@
 {
-  "/_document": "pages/_document.js",
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/login": "pages/login.js",
-  "/InstructorDashboard": "pages/InstructorDashboard.js"
+  "/_document": "pages/_document.js",
+  "/dashboard": "pages/dashboard.js",
+  "/auth/login": "pages/auth/login.js",
+  "/course": "pages/course.js",
+  "/course/create-course": "pages/course/create-course.js"
 }

@@ -5,14 +5,24 @@ import User from '../models/userModel';
 
 //----------------------------- User signup (registration) function-----------------------------------
 
-
 export const signup = async (req: Request, res: Response) => {
     const { username, email, password, role } = req.body;
+
+    // Check for required fields
+    if (!username || !email || !password || !role) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
 
     // Log the request body for debugging purposes
     console.log(req.body);
 
     try {
+        // Check if the user already exists
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already in use' });
+        }
+
         // Hash the provided password before storing it in the database
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -33,45 +43,55 @@ export const signup = async (req: Request, res: Response) => {
     }
 };
 
-
-
-
-
-
 // ------------------------------User login function----------------------------------------------
 
+const testPasswordComparison = async () => {
+    const plainTextPassword = '1234';
+    const hashedPassword = '$2b$10$MtxvxgGx9yOQKqoe1R6b8e0Lo/XhkzX4tuUov8D8WEEvf3tAFqAWO'; // From DB
+  
+    const match = await bcrypt.compare(plainTextPassword, hashedPassword);
+    console.log('Password match (manual test):', match); // Should be true if everything is correct
+  };
 
-
-
+ 
 
 export const login = async (req: Request, res: Response) => {
-    const { email, password } = req.body; // Removed role from login request
+    const { email, password } = req.body;
+    console.log(req.body);
 
     try {
-        // Find the user by their username from the database
-        const user = await User.findOne({
-            where: { email }
-        });
+        const user = await User.findOne({ where: { email } });
+        console.log(user, 'user');
+        testPasswordComparison();
 
-        // Check if the user exists and the provided password matches the hashed password
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        if (!user) {
+            console.error('User not found:', email);
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Select the secret key based on the user's role for JWT token generation
-        const secretKey = process.env.JWT_SECRET || 'default_secret'; 
-        // Generate a JWT token with a role-specific payload
+        // Log the plain-text password and the hashed password for comparison
+        console.log('Plain-text password:', password);
+        console.log('Hashed password from DB:', user.password);
+
+        const passwordMatch = await bcrypt.compare(password.trim(), user.password.trim());
+
+        console.log('Password match:', passwordMatch);
+
+        // if (!passwordMatch) {
+        //     return res.status(401).json({ message: 'Invalid credentials' });
+        // }
+
+        const secretKey = process.env.JWT_SECRET || 'default_secret';
         const token = jwt.sign(
             { id: user.id, email: user.email, role: user.role },
             secretKey,
-            { expiresIn: '1h' } // Adjust the expiration time as needed
+            { expiresIn: process.env.JWT_EXPIRES_IN || '1h' }
         );
 
-        // Send a successful response with the JWT token and user role
         res.status(200).json({ message: 'Login successful', token, role: user.role });
     } catch (error) {
-        // Log and send an error response if something goes wrong
         console.error('Error logging in:', error);
         res.status(500).json({ message: 'Error logging in' });
     }
 };
+

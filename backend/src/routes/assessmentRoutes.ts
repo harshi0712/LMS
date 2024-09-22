@@ -13,10 +13,10 @@ import {
 const router = Router();
 
 // Define routes
-router.post('/assessments',()=>{} ,createAssessment); // Create a new assessment
-router.get('/assessments', getAssessments); // Get all assessments
-router.get('/assessments/:id', getAssessmentById); // Get a single assessment by ID
-router.put('/assessments/:id', updateAssessment); // Update an assessment by ID
-router.delete('/assessments/:id', deleteAssessment); // Delete an assessment by ID
+router.post('/create',()=>{} ,createAssessment); // Create a new assessment
+router.get('/getAll', getAssessments); // Get all assessments
+router.get('/:id', getAssessmentById); // Get a single assessment by ID
+router.put('/update/:id', updateAssessment); // Update an assessment by ID
+router.delete('/:id', deleteAssessment); // Delete an assessment by ID
 
 export default router;

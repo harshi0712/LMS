@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
- import { createGrade } from '../components/service/grade';
+ import { createGrade } from '../styles/service/grade';
 
 const GradeForm = () => {
     const [userId, setUserId] = useState(0);

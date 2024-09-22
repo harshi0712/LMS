@@ -1,22 +1,20 @@
-// Manage course creation API
 import { Request, Response } from 'express';
 import Course from '../models/courseModel';
 
 // Create a new course
 export const createCourse = async (req: Request, res: Response) => {
-    const { title, description, modules, courseImage, link } = req.body;
+    const { title, description, courseImage, link } = req.body;
 
     try {
         // Create a new course using Sequelize
         const course = await Course.create({
             title,
             description,
-            modules,
             courseImage,
             link
         });
-        console.log(course)
-        res.status(201).json({course});
+        console.log(course);
+        res.status(201).json({ course });
     } catch (error) {
         console.error('Error creating course:', error);
         res.status(500).json({ message: 'Error creating course' });
@@ -55,7 +53,7 @@ export const getCourseById = async (req: Request, res: Response) => {
 // Update a course by ID
 export const updateCourse = async (req: Request, res: Response) => {
     const { id } = req.params;
-    // const { title, description, modules, courseImage, link } = req.body;
+    const { title, description, courseImage, link } = req.body;
 
     try {
         // Find the course to update
@@ -65,15 +63,14 @@ export const updateCourse = async (req: Request, res: Response) => {
         }
 
         // Update the course
-        // await course.update({
-        //     title,
-        //     description,
-        //     modules    //Modules can represent different sections or chapters of the course. For example, a programming course might have modules like "Introduction to Programming," "Data Structures," and "Algorithms."
-        // });
+        await course.update({
+            title,
+            description,
+            courseImage,
+            link
+        });
 
-        await course.update(req.body);
         res.json(course);
-
     } catch (error) {
         console.error('Error updating course:', error);
         res.status(500).json({ message: 'Error updating course' });
