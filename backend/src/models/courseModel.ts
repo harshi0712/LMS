@@ -44,7 +44,7 @@ Course.init({
 }, {
   sequelize,
   tableName: 'courses',
-  timestamps: true, // Enable timestamps for tracking creation and updates
+  timestamps: false, // Enable timestamps for tracking creation and updates
 });
 
 export default Course;

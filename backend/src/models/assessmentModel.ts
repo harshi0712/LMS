@@ -1,67 +1,106 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+
+
+
+// assessmentModel.ts
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../connection/connectDB';
-import Course from './courseModel';
 
-// Define the attributes for the Assessment model
-interface AssessmentAttributes {
-  id: number;
-  title: string;
-  courseId: number; // Ensure this matches with `id` in `Course`
-  questions: Array<{              // Update questions to be an array of objects
-    text: string;
-    options: string[];
-    correctAnswer: string;
-  }>;
+class Assessment extends Model {
+    public id!: number;
+    public title!: string;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 }
 
-interface AssessmentCreationAttributes extends Optional<AssessmentAttributes, 'id'> {}
-
-// Define the Assessment model
-class Assessment extends Model<AssessmentAttributes, AssessmentCreationAttributes> implements AssessmentAttributes {
-  public id!: number;
-  public title!: string;
-  public courseId!: number;
-  public questions!: Array<{       // Array of objects for questions
-    text: string;
-    options: string[];
-    correctAnswer: string;
-  }>;
-
-  getQuestions(): object {
-    return this.getDataValue('questions') || [];
-  }
+class Question extends Model {
+    public id!: number;
+    public assessmentId!: number;
+    public questionText!: string;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 }
 
+class Answer extends Model {
+    public id!: number;
+    public questionId!: number;
+    public answerText!: string;
+    public isCorrect!: boolean; // Indicates if the answer is correct
+    public createdAt!: Date;
+    public updatedAt!: Date;
+}
+
+// Initialize Assessment Model
 Assessment.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  courseId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'courses',
-      key: 'id'
-    }
-  },
-  questions: {
-    type: DataTypes.JSON, // Store the array as JSON in the database
-    allowNull: false
-  }
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 }, {
-  sequelize,
-  tableName: 'assessments',
-  timestamps: true,
+    sequelize,
+    modelName: 'Assessment',
 });
 
-// Set up associations
-Course.hasMany(Assessment, { foreignKey: 'courseId' });
-Assessment.belongsTo(Course, { foreignKey: 'courseId' });
+// Initialize Question Model
+Question.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    assessmentId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Assessment,
+            key: 'id',
+        },
+    },
+    questionText: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+}, {
+    sequelize,
+    modelName: 'Question',
+});
 
-export default Assessment;
+// Initialize Answer Model
+Answer.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    questionId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Question,
+            key: 'id',
+        },
+    },
+    answerText: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    isCorrect: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+    },
+}, {
+    sequelize,
+    modelName: 'Answer',
+});
+
+// Associations
+Assessment.hasMany(Question, { foreignKey: 'assessmentId' });
+Question.belongsTo(Assessment, { foreignKey: 'assessmentId' });
+Question.hasMany(Answer, { foreignKey: 'questionId' });
+Answer.belongsTo(Question, { foreignKey: 'questionId' });
+
+export { Assessment, Question, Answer };
