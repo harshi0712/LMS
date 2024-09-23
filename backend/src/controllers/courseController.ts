@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import Course from '../models/courseModel';
 
+
+
+
 // Create a new course
+
 export const createCourse = async (req: Request, res: Response) => {
     const { title, description, courseImage, link } = req.body;
 
@@ -20,6 +24,8 @@ export const createCourse = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error creating course' });
     }
 };
+
+
 
 // Get all courses
 export const getCourses = async (req: Request, res: Response) => {
@@ -96,3 +102,4 @@ export const deleteCourse = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error deleting course' });
     }
 };
+

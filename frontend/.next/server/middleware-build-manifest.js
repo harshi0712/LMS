@@ -24,15 +24,10 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/auth/login.js"
     ],
-    "/course": [
+    "/auth/signup": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/course.js"
-    ],
-    "/course/create-course": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/course/create-course.js"
+      "static/chunks/pages/auth/signup.js"
     ],
     "/dashboard": [
       "static/chunks/webpack.js",

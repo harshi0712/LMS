@@ -35,7 +35,7 @@ const SignupComponent: React.FC = () => {
           icon: "success",
           title: "Registration successful",
         });
-        router.push('/login'); // Redirect after successful registration
+        router.push('login'); // Redirect after successful registration
       } else {
         Swal.fire({
           icon: "error",
@@ -116,7 +116,7 @@ const SignupComponent: React.FC = () => {
               />
               <TextField
                 label="Password"
-                type="password"
+                type="text"
                 variant="outlined"
                 fullWidth
                 margin="normal"

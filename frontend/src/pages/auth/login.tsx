@@ -32,6 +32,7 @@ const Login: React.FC = () => {
       password: data.password,
     };
 
+
     console.log("User logged in:", reqData);
 
     loginAPI(reqData, (res: any) => {
@@ -47,6 +48,7 @@ const Login: React.FC = () => {
         localStorage.setItem('role', role);
         router.push('/dashboard');
       } else {
+        console.log(res.data.error)
         Swal.fire({
           icon: "error",
           title: res?.data?.error || "Login failed",
