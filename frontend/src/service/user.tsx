@@ -1,65 +1,48 @@
-// Function to get all users from the server
-export const fetchAllUsers = async (): Promise<any[]> => {
+import { Request, Response } from 'express';
+import User from '../models/userModel'; // Import the User model
+ 
+// Get all users
+export const getAllUsers = async (req: Request, res: Response) => {
     try {
-        const response = await fetch('/api/users'); // Adjust the endpoint as necessary
-
-        // Check if the response is OK (status code in the range 200-299)
-        if (!response.ok) {
-            throw new Error('Failed to fetch users');
-        }
-
-        // Parse the JSON response
-        const users: any[] = await response.json();
-        return users; // Return the list of users
+        // Fetch all users using Sequelize
+        const users = await User.findAll();
+        res.send(users);
     } catch (error) {
-        console.error('Error fetching users:', error instanceof Error ? error.message : 'An unknown error occurred');
-        throw error; // Rethrow the error for further handling if needed
+        console.error('Error fetching users:', error);
+        res.status(500).send({ message: 'Error fetching users' });
     }
 };
-
-// Function to get a user by ID
-export const fetchUserById = async (userId: number): Promise<any> => {
+ 
+// Get a user by ID
+export const getUserById = async (req: Request, res: Response) => {
     try {
-        const response = await fetch(`/api/users/${userId}`); // Adjust the endpoint as necessary
-
-        // Check if the response is OK
-        if (!response.ok) {
-            if (response.status === 404) {
-                throw new Error('User not found');
-            }
-            throw new Error('Failed to fetch user');
-        }
-
-        // Parse the JSON response
-        const user = await response.json();
-        return user; // Return the user data
+        // Fetch a user by primary key using Sequelize
+        const user = await User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.json(user);
     } catch (error) {
-        console.error('Error fetching user:', error instanceof Error ? error.message : 'An unknown error occurred');
-        throw error; // Rethrow the error for further handling if needed
+        console.error('Error fetching user:', error);
+        res.status(500).send({ message: 'Error fetching user' });
     }
 };
-
-// Function to create a new user
-export const createUser = async (userData: { username: string; email: string; password: string; role: string }): Promise<any> => {
+ 
+// Create a new user
+export const createUser = async (req: Request, res: Response) => {
+    const { username, email, password, role } = req.body;
+    console.log("req.body", req.body);
+ 
     try {
-        const response = await fetch('/api/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
+        // Create a new user
+        const newUser = await User.create({
+            username,
+            email,  // Add email field
+            password,
+            role
         });
-
-        // Check if the response is OK
-        if (!response.ok) {
-            throw new Error('Failed to create user');
-        }
-
-        // Parse the JSON response
-        const newUser = await response.json();
-        return newUser; // Return the newly created user
+ 
+        res.status(201).json(newUser);
     } catch (error) {
-        console.error('Error creating user:', error instanceof Error ? error.message : 'An unknown error occurred');
-        throw error; // Rethrow the error for further handling if needed
+        console.error('Error creating user:', error);
+        res.status(500).json({ message: 'Error creating user' });
     }
 };
