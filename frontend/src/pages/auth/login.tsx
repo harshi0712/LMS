@@ -42,10 +42,10 @@ const Login: React.FC = () => {
           icon: "success",
           title: "Sign in successfully",
         });
-        const { token, role } = res.data;
+        const { token, user } = res.data;
         // Store token in localStorage or context
         localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
+        localStorage.setItem('role', user.role);
         router.push('/dashboard');
       } else {
         console.log(res.data.error)

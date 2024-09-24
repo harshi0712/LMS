@@ -29,14 +29,14 @@ const ButtonAppBar: React.FC = () => {
   const adminOptions: Option[] = [
     { name: 'Dashboard', url: '/dashboard' },
     { name: 'User Management', url: '/user' },
-    { name: 'Students', url: '/student' },
+    { name: 'Students', url: '/dashboard/StudentDashboard' },
     { name: 'Courses', url: '/course' },
     { name: 'Setting', url: '/setting' },
   ];
 
   const instructorOptions: Option[] = [
     { name: 'Dashboard', url: '/dashboard' },
-    { name: 'Students', url: '/student' },
+    { name: 'Students', url: '/dashboard/StudentDashboard' },
     { name: 'Courses', url: '/course' },
     { name: 'Setting', url: '/setting' },
   ];
@@ -44,7 +44,7 @@ const ButtonAppBar: React.FC = () => {
   const studentOptions: Option[] = [
     { name: 'Dashboard', url: '/dashboard' },
     { name: 'Courses', url: '/course' },
-    { name: 'Setting', url: '/setting' },
+ 
   ];
 
   const { isAuthenticated, role } = useAuth();

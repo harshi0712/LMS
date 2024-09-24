@@ -101,7 +101,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onClick, onEdit, onDele
                     target="_blank" 
                     rel="noopener noreferrer" // Security best practice
                 >
-                    Learn More
+                    learn here
                 </Button>
                 {(role === 'admin' || role === 'instructor') && (
                     <>

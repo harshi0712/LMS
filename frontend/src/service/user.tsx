@@ -1,48 +1,66 @@
-import { Request, Response } from 'express';
-import User from '../models/userModel'; // Import the User model
- 
-// Get all users
-export const getAllUsers = async (req: Request, res: Response) => {
+import axios from 'axios';
+import { API } from '../api-endpoint/apiUrl'; 
+
+// Define types for user data
+interface User {
+    id?: number;
+    username: string;
+    email: string;
+    password?: string;
+    role: string;
+}
+
+// Fetch all users
+export const fetchAllUsers = async (): Promise<User[]> => {
     try {
-        // Fetch all users using Sequelize
-        const users = await User.findAll();
-        res.send(users);
+        const response = await axios.get<User[]>(API.get_all_users);
+        return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);
-        res.status(500).send({ message: 'Error fetching users' });
+        throw error;
     }
 };
- 
-// Get a user by ID
-export const getUserById = async (req: Request, res: Response) => {
+
+// Fetch a user by ID
+export const fetchUserById = async (id: string | number): Promise<User> => {
     try {
-        // Fetch a user by primary key using Sequelize
-        const user = await User.findByPk(req.params.id);
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        res.json(user);
+        const response = await axios.get<User>(`${API.get_user_by_id}/${id}`);
+        return response.data;
     } catch (error) {
         console.error('Error fetching user:', error);
-        res.status(500).send({ message: 'Error fetching user' });
+        throw error;
     }
 };
- 
+
 // Create a new user
-export const createUser = async (req: Request, res: Response) => {
-    const { username, email, password, role } = req.body;
-    console.log("req.body", req.body);
- 
+export const createUser = async (userData: User): Promise<User> => {
     try {
-        // Create a new user
-        const newUser = await User.create({
-            username,
-            email,  // Add email field
-            password,
-            role
-        });
- 
-        res.status(201).json(newUser);
+        const response = await axios.post<User>(API.create_user, userData);
+        return response.data;
     } catch (error) {
         console.error('Error creating user:', error);
-        res.status(500).json({ message: 'Error creating user' });
+        throw error;
+    }
+};
+
+// User login
+export const userLogin = async (credentials: { email: string; password: string }): Promise<User> => {
+    try {
+        const response = await axios.post<User>(API.login, credentials);
+        return response.data;
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
+// User registration
+export const userRegister = async (userData: User): Promise<User> => {
+    try {
+        const response = await axios.post<User>(API.register, userData);
+        return response.data;
+    } catch (error) {
+        console.error('Error registering user:', error);
+        throw error;
     }
 };

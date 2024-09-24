@@ -26,6 +26,7 @@ export const registerAPI = async (
     callback: (arg0: AxiosResponse<any, any> | unknown) => void
 ) => {
     try {
+        console.log("sending time data===============================", reqData)
         const result = await axios.post(API.register, reqData);
         callback(result);
     } catch (err) {
