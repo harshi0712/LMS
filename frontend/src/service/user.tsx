@@ -10,10 +10,14 @@ interface User {
     role: string;
 }
 
+interface FetchUsersResponse {
+    users: User[];
+    totalPages: number;
+  }
 // Fetch all users
-export const fetchAllUsers = async (): Promise<User[]> => {
+export const fetchAllUsers = async (page: number, limit: number, search: string): Promise<FetchUsersResponse> => {
     try {
-        const response = await axios.get<User[]>(API.get_all_users);
+        const response = await axios.get<User[]>(`${API.get_all_users}?page=${page}&limit=${limit}&search=${search}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -24,7 +28,7 @@ export const fetchAllUsers = async (): Promise<User[]> => {
 // Fetch a user by ID
 export const fetchUserById = async (id: string | number): Promise<User> => {
     try {
-        const response = await axios.get<User>(`${API.get_user_by_id}/${id}`);
+        const response = await axios.get<User>(`${API.get_all_users}/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching user:', error);
@@ -39,6 +43,27 @@ export const createUser = async (userData: User): Promise<User> => {
         return response.data;
     } catch (error) {
         console.error('Error creating user:', error);
+        throw error;
+    }
+};
+
+// Update an existing user
+export const updateUser = async (id: string | number, userData: User): Promise<User> => {
+    try {
+        const response = await axios.put<User>(`${API.get_all_users}/${id}`, userData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+    }
+};
+
+// Delete a user
+export const deleteUser = async (id: string | number): Promise<void> => {
+    try {
+        await axios.delete(`${API.get_all_users}/${id}`);
+    } catch (error) {
+        console.error('Error deleting user:', error);
         throw error;
     }
 };

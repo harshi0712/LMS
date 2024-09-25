@@ -1,21 +1,8 @@
-// import React from "react";
-
-// const CreateUsert = () => {
-//     return (
-//         <div>
-//             Create User Form 
-//         </div>
-//     );
-// };
-
-// export default CreateUsert;
-
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Container, TextField, Button, Typography, Box, MenuItem, FormControl, InputLabel, Select, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import { createUser } from '../../service/user'; // Adjust the import path according to your structure
 
 interface CreateUserFormData {
   username: string;
@@ -32,9 +19,9 @@ const CreateUserForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/users', data);  // Adjust API endpoint if necessary
+      const response = await createUser(data);  // Use the createUser function from the service
 
-      if (response.status === 201) {
+      if (response) {
         Swal.fire({
           icon: 'success',
           title: 'User created successfully!',
@@ -89,13 +76,15 @@ const CreateUserForm: React.FC = () => {
           error={!!errors.password}
           helperText={errors.password ? errors.password.message : ""}
         />
-        <FormControl fullWidth margin="normal">
+        <FormControl fullWidth margin="normal" error={!!errors.role}>
           <InputLabel>Role</InputLabel>
           <Select
-            defaultValue=""
+            defaultValue="" // Ensure this is an empty string
             {...register("role", { required: "Role is required" })}
-            error={!!errors.role}
           >
+            <MenuItem value="">
+              <em>Select a role</em> {/* This is the placeholder */}
+            </MenuItem>
             <MenuItem value="instructor">Instructor</MenuItem>
             <MenuItem value="student">Student</MenuItem>
           </Select>

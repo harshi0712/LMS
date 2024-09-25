@@ -46,7 +46,8 @@ const Login: React.FC = () => {
         // Store token in localStorage or context
         localStorage.setItem('token', token);
         localStorage.setItem('role', user.role);
-        router.push('/dashboard');
+        window.location.assign('/dashboard')
+        //router.push('/dashboard');
       } else {
         console.log(res.data.error)
         Swal.fire({

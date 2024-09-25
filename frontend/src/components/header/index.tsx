@@ -91,7 +91,7 @@ const ButtonAppBar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.clear()
-    router.push('/auth/login');
+    window.location.assign('/auth/login')
   }
 
   return (

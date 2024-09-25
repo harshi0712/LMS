@@ -1,34 +1,25 @@
-// import React from "react";
-
-// const ViewUser = () => {
-//     return (
-//         <div>
-//             View user details 
-//         </div>
-//     );
-// };
-
-// export default ViewUser;
-
-
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Container, Typography, TextField, Button, Box, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useSearchParams } from 'next/navigation';
+import { fetchUserById } from '../../service/user';
 
-interface UserDetail {
-  id: number;
+// Define types for user data
+interface User {
+  id?: number;
   username: string;
   email: string;
+  password?: string;
   role: string;
 }
 
 const UserDetailView: React.FC = () => {
   const router = useRouter();
-  const { id } = router.query;  // Get the user ID from the URL query params
-  const [user, setUser] = useState<UserDetail | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
 
   useEffect(() => {
     if (id) {
@@ -39,15 +30,9 @@ const UserDetailView: React.FC = () => {
   const fetchUserDetails = async (userId: string) => {
     setLoading(true);
     try {
-      const response = await axios.get(`/api/users/${userId}`);  // Adjust the API endpoint as needed
-      setUser(response.data);
-    } catch (error: any) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error fetching user details',
-        text: error.response?.data?.message || 'Something went wrong!',
-      });
-    } finally {
+      const fetchedUsers = await fetchUserById(userId);
+      setUser(fetchedUsers as User);
+    } catch (error) {} finally {
       setLoading(false);
     }
   };
@@ -81,6 +66,7 @@ const UserDetailView: React.FC = () => {
           value={user.username}
           fullWidth
           margin="normal"
+          disabled
           InputProps={{
             readOnly: true,
           }}
@@ -90,6 +76,7 @@ const UserDetailView: React.FC = () => {
           value={user.email}
           fullWidth
           margin="normal"
+          disabled
           InputProps={{
             readOnly: true,
           }}
@@ -99,12 +86,13 @@ const UserDetailView: React.FC = () => {
           value={user.role}
           fullWidth
           margin="normal"
+          disabled
           InputProps={{
             readOnly: true,
           }}
         />
         <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant="contained" color="primary" onClick={() => router.push('/users')}>
+          <Button variant="contained" color="primary" onClick={() => router.push('/user')}>
             Back to Users List
           </Button>
         </Box>

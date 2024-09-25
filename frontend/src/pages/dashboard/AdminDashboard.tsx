@@ -20,7 +20,7 @@ const AdminDashboard: React.FC = () => {
         <Grid item xs={12} sm={6} md={4}>
           <Paper elevation={3} style={{ padding: 16 }}>
             <Typography variant="h5">Manage Users</Typography>
-            <Button variant="contained" color="primary" onClick={() => handleNavigation('/admin/users')}>
+            <Button variant="contained" color="primary" onClick={() => handleNavigation('/user')}>
               Go to User Management
             </Button>
           </Paper>
@@ -28,7 +28,7 @@ const AdminDashboard: React.FC = () => {
         <Grid item xs={12} sm={6} md={4}>
           <Paper elevation={3} style={{ padding: 16 }}>
             <Typography variant="h5">Manage Courses</Typography>
-            <Button variant="contained" color="primary" onClick={() => handleNavigation('/admin/courses')}>
+            <Button variant="contained" color="primary" onClick={() => handleNavigation('/course')}>
               Go to Course Management
             </Button>
           </Paper>
