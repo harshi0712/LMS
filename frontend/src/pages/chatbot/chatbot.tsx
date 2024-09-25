@@ -1,46 +1,67 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
+import { Box, TextField, Button, Typography, Paper } from '@mui/material';
 
-const socket = io('http://localhost:3002'); // Adjust as needed for your backend URL
+const Chat: React.FC = () => {
+    const [name, setName] = useState<string | null>(null);
+    const [message, setMessage] = useState<string>('');
+    const [messages, setMessages] = useState<{ user: string; message: string; timestamp: string }[]>([]);
+    const socketRef = useRef<ReturnType<typeof io> | null>(null);
 
-const ChatPage: React.FC = () => {
-  const [messages, setMessages] = useState<string[]>([]);
-  const [message, setMessage] = useState('');
+    useEffect(() => {
+        const username = prompt('Please enter your name:');
+        if (username) {
+            setName(username);
+        }
 
-  useEffect(() => {
-    socket.on('message', (msg: string) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+        socketRef.current = io('http://localhost:3002');
 
-    return () => {
-      socket.off('message');
+        socketRef.current.on('message', (msg: { user: string; message: string; timestamp: string }) => {
+            setMessages((prevMessages) => [...prevMessages, msg]);
+        });
+
+        return () => {
+            socketRef.current?.disconnect();
+        };
+    }, []);
+
+    const sendMessage = () => {
+        if (message.trim()) {
+            const msg = { user: name || 'Unknown', message, timestamp: new Date().toLocaleTimeString() };
+            socketRef.current?.emit('message', msg);
+            setMessages((prevMessages) => [...prevMessages, msg]);
+            setMessage('');
+        }
     };
-  }, []);
 
-  const sendMessage = () => {
-    if (message) {
-      socket.emit('message', message);
-      setMessage('');
-    }
-  };
-
-  return (
-    <div style={{ padding: '20px' }}>
-      <h1>WebSocket Chat</h1>
-      <div style={{ border: '1px solid #ccc', height: '300px', overflowY: 'scroll', marginBottom: '10px' }}>
-        {messages.map((msg, index) => (
-          <div key={index}>{msg}</div>
-        ))}
-      </div>
-      <input 
-        value={message} 
-        onChange={(e) => setMessage(e.target.value)} 
-        placeholder="Type a message" 
-        style={{ width: '70%', marginRight: '10px' }} 
-      />
-      <button onClick={sendMessage}>Send</button>
-    </div>
-  );
+    return (
+        <Box sx={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
+            <Box sx={{ height: '400px', overflowY: 'auto', border: '1px solid #ccc', marginBottom: '10px', padding: '10px' }}>
+                {messages.map((msg, index) => (
+                    <Paper key={index} sx={{ padding: '8px', marginBottom: '5px', backgroundColor: msg.user === name ? '#e0f7fa' : '#fff' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>{msg.user} <span style={{ fontWeight: 'normal', fontSize: '0.8em' }}>{msg.timestamp}</span></Typography>
+                        <Typography variant="body1">{msg.message}</Typography>
+                    </Paper>
+                ))}
+            </Box>
+            <TextField
+                variant="outlined"
+                fullWidth
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                        e.preventDefault();
+                    }
+                }}
+                placeholder="Type a message..."
+            />
+            <Button variant="contained" color="primary" onClick={sendMessage} sx={{ marginTop: '10px' }}>
+                Send
+            </Button>
+        </Box>
+    );
 };
 
-export default ChatPage;
+export default Chat;

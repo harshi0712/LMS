@@ -16,9 +16,9 @@ interface Assessment {
 }
 
 // Create a new assessment
-export const createAssessment = async (title: string, questions: Question[]): Promise<AxiosResponse | null> => {
+export const createAssessment = async (reqData:any): Promise<AxiosResponse | null> => {
     try {
-        const response: AxiosResponse<Assessment> = await axios.post(API.create_assessment, { title, questions });
+        const response: AxiosResponse<Assessment> = await axios.post(API.create_assessment, reqData);
         return response;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -31,9 +31,9 @@ export const createAssessment = async (title: string, questions: Question[]): Pr
 };
 
 // Get all assessments
-export const fetchAssessments = async (): Promise<Assessment[] | null> => {
+export const fetchAssessments = async (id: string): Promise<Assessment[] | null> => {
     try {
-        const response: AxiosResponse<Assessment[]> = await axios.get(API.get_assessments);
+        const response: AxiosResponse<Assessment[]> = await axios.get(`${API.get_assessments}/${id}`);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -44,6 +44,22 @@ export const fetchAssessments = async (): Promise<Assessment[] | null> => {
         return null;
     }
 };
+
+// Get all assessments
+export const fetchAllAssessments = async (): Promise<Assessment[] | null> => {
+    try {
+        const response: AxiosResponse<Assessment[]> = await axios.get(`${API.get_assessments}`);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error('Error fetching assessments:', error.response?.data || error.message);
+        } else {
+            console.error('Unexpected error:', error);
+        }
+        return null;
+    }
+};
+
 
 // Get a single assessment by ID
 export const fetchAssessmentById = async (id: number): Promise<Assessment | null> => {

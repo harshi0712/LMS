@@ -61,12 +61,6 @@ const InstructorDashboard: React.FC = () => {
                 <Button variant="contained" color="primary" onClick={() => handleNavigation('/course')}>
                   Go to Course Management
                 </Button>
-                <Button variant="contained" color="secondary" onClick={() => handleNavigation('/instructor/create-course')}>
-                  Create New Course
-                </Button>
-                <Button variant="contained" color="secondary" onClick={() => handleNavigation('/instructor/update-course')}>
-                  Update Course
-                </Button>
               </CardContent>
             </Collapse>
           </Card>
@@ -93,11 +87,8 @@ const InstructorDashboard: React.FC = () => {
             </CardActions>
             <Collapse in={expanded[1]} timeout="auto" unmountOnExit>
               <CardContent>
-                <Button variant="contained" color="primary" onClick={() => handleNavigation('/instructor/assessments')}>
+                <Button variant="contained" color="primary" onClick={() => handleNavigation('/assessment/allAssesment')}>
                   Go to Assessments
-                </Button>
-                <Button variant="contained" color="secondary" onClick={() => handleNavigation('/instructor/design-assessment')}>
-                  Design New Assessment
                 </Button>
               </CardContent>
             </Collapse>

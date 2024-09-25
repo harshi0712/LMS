@@ -1,43 +1,45 @@
-// import React from 'react';
-// import { BarChart } from '@mui/x-charts/BarChart';
-// import { Box, Typography, Paper } from '@mui/material';
 
-// const TrackProgress: React.FC = () => {
-//     // Sample data for progress tracking
-//     const subjects = ['Math', 'Science', 'English'];
-//     const progressData = [
-//         { name: 'Student A', progress: [70, 85, 60] },
-//         { name: 'Student B', progress: [90, 60, 80] },
-//         { name: 'Student C', progress: [50, 70, 90] },
-//     ];
+import React from 'react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from 'recharts';
+import { Paper, Typography, Box } from '@mui/material';
 
-//     return (
-//         <Box
-//             component={Paper}
-//             padding={2}
-//             style={{
-//                 maxWidth: '600px',
-//                 margin: 'auto',
-//                 marginTop: '20px',
-//                 textAlign: 'center',
-//             }}
-//         >
-//             <Typography variant="h4" gutterBottom>
-//                 Track Progress
-//             </Typography>
-//             <BarChart
-//                 xAxis={[{ scaleType: 'band', data: subjects }]}
-//                 series={progressData.map(student => ({
-//                     name: student.name,
-//                     data: student.progress,
-//                 }))}
-//                 width={500}
-//                 height={300}
-//                 barLabel="value"
-//                 tooltip={{ enabled: true }} // Optional: Show tooltip on hover
-//             />
-//         </Box>
-//     );
-// };
+// Sample data for the progress tracker
+const data = [
+  { subject: 'Java', progress: 80 },
+  { subject: 'React', progress: 70 },
+  { subject: 'HTML', progress: 90 },
+  { subject: 'CSS', progress: 85 },
+  { subject: 'Web Technology', progress: 75 },
+];
 
-// export default TrackProgress;
+const ProgressTracker = () => {
+  return (
+    <Box 
+      sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh', 
+        padding: '20px'
+      }}
+    >
+      <Paper style={{ padding: '20px', maxWidth: '600px', width: '100%' }}>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Subject Progress Tracker
+        </Typography>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="subject" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="progress" fill="#3f51b5" />
+          </BarChart>
+        </ResponsiveContainer>
+      </Paper>
+    </Box>
+  );
+};
+
+export default ProgressTracker;

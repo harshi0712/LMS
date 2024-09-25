@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/course/edit-course": "pages/course/edit-course.js",
+  "/dashboard": "pages/dashboard.js",
   "/course": "pages/course.js",
-  "/course/create-course": "pages/course/create-course.js"
+  "/assessment/assessmentList": "pages/assessment/assessmentList.js"
 }

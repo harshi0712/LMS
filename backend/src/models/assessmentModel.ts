@@ -8,6 +8,7 @@ import sequelize from '../connection/connectDB';
 class Assessment extends Model {
     public id!: number;
     public title!: string;
+    public courseId!: number; // New field
     public createdAt!: Date;
     public updatedAt!: Date;
 }
@@ -39,6 +40,14 @@ Assessment.init({
     title: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    courseId: { // New field
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'courses', // Replace with your actual Course model name
+            key: 'id',
+        },
     },
 }, {
     sequelize,

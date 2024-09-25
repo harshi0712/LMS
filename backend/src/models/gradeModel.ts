@@ -2,7 +2,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../connection/connectDB';
 import User from './userModel'; // Import User model
-import Assessment from './assessmentModel'; // Import Assessment model
+import {Assessment} from './assessmentModel'; // Import Assessment model
 
 interface GradeAttributes {
     id: number;

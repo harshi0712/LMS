@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Course from '../models/courseModel';
+import { Op } from 'sequelize';
 
 
 
@@ -103,3 +104,32 @@ export const deleteCourse = async (req: Request, res: Response) => {
     }
 };
 
+
+
+
+export const searchCourseByTitle = async (req: Request, res: Response) => {
+    const { title } = req.query; // Assuming title is passed as a query parameter
+
+    console.log(title);
+    if (!title || typeof title !== 'string') {
+        return res.status(400).json({ message: 'Title query parameter is required and must be a string.' });
+    }
+
+    try {
+        // Search for courses by title using Sequelize
+        const courses = await Course.findAll({
+            where: {
+                title: {
+                    [Op.like]: `%${title}%`, // Use LIKE for case-sensitive search in MySQL
+                },
+            },
+        });
+        // console.log(courses);
+        
+        // Return an empty array if no courses are found
+        res.status(200).json(courses.length > 0 ? courses : []);
+    } catch (error) {
+        console.error('Error searching for courses:', error);
+        res.status(500).json({ message: 'Error searching for courses' });
+    }
+};
